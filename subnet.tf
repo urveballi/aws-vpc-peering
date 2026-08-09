@@ -1,4 +1,4 @@
-resource "aws_subnet" "primary" {
+resource "aws_subnet" "primary_subnet" {
   vpc_id                  = aws_vpc.primary.id
   cidr_block              = var.primary_vpc_cidr
   availability_zone       = data.aws_availability_zones.primary.names[0]
@@ -11,7 +11,7 @@ resource "aws_subnet" "primary" {
   }
 }
 
-resource "aws_subnet" "secondary" {
+resource "aws_subnet" "secondary_subnet" {
   vpc_id                  = aws_vpc.secondary.id
   cidr_block              = var.secondary_vpc_cidr
   availability_zone       = data.aws_availability_zones.secondary.names[0]
@@ -24,7 +24,7 @@ resource "aws_subnet" "secondary" {
   }
 }
 
-resource "aws_subnet" "tertiary" {
+resource "aws_subnet" "tertiary_subnet" {
   vpc_id                  = aws_vpc.tertiary.id
   cidr_block              = var.tertiary_vpc_cidr
   availability_zone       = data.aws_availability_zones.secondary.names[0]
