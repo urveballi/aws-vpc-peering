@@ -1,4 +1,4 @@
-resource "aws_vpc" "primary" {
+resource "aws_vpc" "primary_vpc" {
   cidr_block       = var.primary_vpc_cidr
   provider         = aws.primary
   enable_dns_hostnames = true
@@ -11,7 +11,7 @@ resource "aws_vpc" "primary" {
 }
 
 
-resource "aws_vpc" "secondary" {
+resource "aws_vpc" "secondary_vpc" {
   cidr_block       = var.secondary_vpc_cidr
   provider         = aws.secondary
   enable_dns_hostnames = true
@@ -23,7 +23,7 @@ resource "aws_vpc" "secondary" {
   }
 }
 
-resource "aws_vpc" "tertiary" {
+resource "aws_vpc" "tertiary_vpc" {
   cidr_block       = var.tertiary_vpc_cidr
   provider         = aws.secondary
   enable_dns_hostnames = true
