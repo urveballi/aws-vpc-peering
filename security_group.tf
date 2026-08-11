@@ -17,7 +17,7 @@ resource "aws_security_group" "primary_sg" {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.secondary_vpc_cidr]
   }
 
   egress {
@@ -51,7 +51,7 @@ resource "aws_security_group" "secondary_sg" {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.primary_vpc_cidr, var.tertiary_vpc_cidr]
   }
 
   egress {
@@ -85,7 +85,7 @@ resource "aws_security_group" "tertiary_sg" {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.primary_vpc_cidr, var.secondary_vpc_cidr]
   }
 
   egress {
