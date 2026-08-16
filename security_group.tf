@@ -5,11 +5,11 @@ resource "aws_security_group" "primary_sg" {
   provider    = aws.primary
 
   ingress {
-    description = "SSH from peer VPCs"
+    description = "SSH from internet for testing"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.secondary_vpc_cidr, var.tertiary_vpc_cidr]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
@@ -39,11 +39,11 @@ resource "aws_security_group" "secondary_sg" {
   provider    = aws.secondary
 
   ingress {
-    description = "SSH from peer VPCs"
+    description = "SSH from internet for testing"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.primary_vpc_cidr, var.tertiary_vpc_cidr]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
@@ -73,11 +73,11 @@ resource "aws_security_group" "tertiary_sg" {
   provider    = aws.tertiary
 
   ingress {
-    description = "SSH from peer VPCs"
+    description = "SSH from internet for testing"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.primary_vpc_cidr, var.secondary_vpc_cidr]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
