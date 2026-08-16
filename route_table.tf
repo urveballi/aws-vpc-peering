@@ -1,5 +1,5 @@
 resource "aws_route_table" "primary_rt" {
-  vpc_id   = aws_vpc.primary.id
+  vpc_id   = aws_vpc.primary_vpc.id
   provider = aws.primary
 
   route {
@@ -13,7 +13,7 @@ resource "aws_route_table" "primary_rt" {
 }
 
 resource "aws_route_table" "secondary_rt" {
-  vpc_id   = aws_vpc.secondary.id
+  vpc_id   = aws_vpc.secondary_vpc.id
   provider = aws.secondary
 
   route {
@@ -27,8 +27,8 @@ resource "aws_route_table" "secondary_rt" {
 }
 
 resource "aws_route_table" "tertiary_rt" {
-  vpc_id   = aws_vpc.tertiary.id
-  provider = aws.secondary
+  vpc_id   = aws_vpc.tertiary_vpc.id
+  provider = aws.tertiary
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -72,30 +72,30 @@ resource "aws_route" "tertiary_to_primary" {
   route_table_id            = aws_route_table.tertiary_rt.id
   destination_cidr_block    = var.primary_vpc_cidr
   vpc_peering_connection_id = aws_vpc_peering_connection.primary_to_tertiary.id
-  provider                  = aws.secondary
+  provider                  = aws.tertiary
 }
 
 resource "aws_route" "tertiary_to_secondary" {
   route_table_id            = aws_route_table.tertiary_rt.id
   destination_cidr_block    = var.secondary_vpc_cidr
   vpc_peering_connection_id = aws_vpc_peering_connection.secondary_to_tertiary.id
-  provider                  = aws.secondary
+  provider                  = aws.tertiary
 }
 
 resource "aws_route_table_association" "primary_rta" {
-  subnet_id      = aws_subnet.primary.id
+  subnet_id      = aws_subnet.primary_subnet.id
   route_table_id = aws_route_table.primary_rt.id
   provider       = aws.primary
 }
 
 resource "aws_route_table_association" "secondary_rta" {
-  subnet_id      = aws_subnet.secondary.id
+  subnet_id      = aws_subnet.secondary_subnet.id
   route_table_id = aws_route_table.secondary_rt.id
   provider       = aws.secondary
 }
 
 resource "aws_route_table_association" "tertiary_rta" {
-  subnet_id      = aws_subnet.tertiary.id
+  subnet_id      = aws_subnet.tertiary_subnet.id
   route_table_id = aws_route_table.tertiary_rt.id
-  provider       = aws.secondary
+  provider       = aws.tertiary
 }
