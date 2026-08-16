@@ -1,5 +1,5 @@
-resource "aws_internet_gateway" "primary" {
-  vpc_id   = aws_vpc.primary.id
+resource "aws_internet_gateway" "primary_igw" {
+  vpc_id   = aws_vpc.primary_vpc.id
   provider  = aws.primary
 
   tags = {
@@ -7,8 +7,8 @@ resource "aws_internet_gateway" "primary" {
   }
 }
 
-resource "aws_internet_gateway" "secondary" {
-  vpc_id   = aws_vpc.secondary.id
+resource "aws_internet_gateway" "secondary_igw" {
+  vpc_id   = aws_vpc.secondary_vpc.id
   provider  = aws.secondary
 
   tags = {
@@ -16,9 +16,9 @@ resource "aws_internet_gateway" "secondary" {
   }
 }
 
-resource "aws_internet_gateway" "tertiary" {
-  vpc_id   = aws_vpc.tertiary.id
-  provider  = aws.secondary
+resource "aws_internet_gateway" "tertiary_igw" {
+  vpc_id   = aws_vpc.tertiary_vpc.id
+  provider  = aws.tertiary
 
   tags = {
     Name = "TERTIARY-IGW-${var.tertiary}"

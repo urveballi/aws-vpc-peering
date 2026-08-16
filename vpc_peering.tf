@@ -1,6 +1,6 @@
 resource "aws_vpc_peering_connection" "primary_to_secondary" {
-  peer_vpc_id = aws_vpc.secondary.id
-  vpc_id      = aws_vpc.primary.id
+  peer_vpc_id = aws_vpc.secondary_vpc.id
+  vpc_id      = aws_vpc.primary_vpc.id
   auto_accept = false
   peer_region = var.secondary
   provider     = aws.primary
@@ -17,8 +17,8 @@ resource "aws_vpc_peering_connection_accepter" "secondary_accept" {
 }
 
 resource "aws_vpc_peering_connection" "primary_to_tertiary" {
-  peer_vpc_id = aws_vpc.tertiary.id
-  vpc_id      = aws_vpc.primary.id
+  peer_vpc_id = aws_vpc.tertiary_vpc.id
+  vpc_id      = aws_vpc.primary_vpc.id
   auto_accept = false
   peer_region = var.tertiary
   provider     = aws.primary
@@ -31,12 +31,12 @@ resource "aws_vpc_peering_connection" "primary_to_tertiary" {
 resource "aws_vpc_peering_connection_accepter" "tertiary_accept_from_primary" {
   vpc_peering_connection_id = aws_vpc_peering_connection.primary_to_tertiary.id
   auto_accept               = true
-  provider                  = aws.secondary
+  provider                  = aws.tertiary
 }
 
 resource "aws_vpc_peering_connection" "secondary_to_tertiary" {
-  peer_vpc_id = aws_vpc.tertiary.id
-  vpc_id      = aws_vpc.secondary.id
+  peer_vpc_id = aws_vpc.tertiary_vpc.id
+  vpc_id      = aws_vpc.secondary_vpc.id
   auto_accept = false
   peer_region = var.tertiary
   provider     = aws.secondary
@@ -49,6 +49,6 @@ resource "aws_vpc_peering_connection" "secondary_to_tertiary" {
 resource "aws_vpc_peering_connection_accepter" "tertiary_accept_from_secondary" {
   vpc_peering_connection_id = aws_vpc_peering_connection.secondary_to_tertiary.id
   auto_accept               = true
-  provider                  = aws.secondary
+  provider                  = aws.tertiary
 }
 

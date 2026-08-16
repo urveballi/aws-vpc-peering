@@ -8,6 +8,11 @@ data "aws_availability_zones" "secondary" {
   state    = "available"
 }
 
+data "aws_availability_zones" "tertiary" {
+  provider = aws.tertiary
+  state    = "available"
+}
+
 # Data source for Primary region AMI (Ubuntu 20.04 LTS)
 data "aws_ami" "primary_ami" {
   provider    = aws.primary
@@ -34,6 +39,28 @@ data "aws_ami" "primary_ami" {
 # Data source for Secondary region AMI (Ubuntu 20.04 LTS)
 data "aws_ami" "secondary_ami" {
   provider    = aws.secondary
+  most_recent = true
+  owners = ["099720109477"] # Canonical (Ubuntu)
+  
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name  = "architecture"
+    values = ["x86_64"]
+  }
+}
+
+# Data source for Tertiary region AMI (Ubuntu 20.04 LTS)
+data "aws_ami" "tertiary_ami" {
+  provider    = aws.tertiary
   most_recent = true
   owners = ["099720109477"] # Canonical (Ubuntu)
   

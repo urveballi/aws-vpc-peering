@@ -1,6 +1,6 @@
 resource "aws_subnet" "primary_subnet" {
-  vpc_id                  = aws_vpc.primary.id
-  cidr_block              = var.primary_vpc_cidr
+  vpc_id                  = aws_vpc.primary_vpc.id
+  cidr_block              = var.primary_subnet_cidr
   availability_zone       = data.aws_availability_zones.primary.names[0]
   map_public_ip_on_launch = true
   provider                = aws.primary
@@ -12,8 +12,8 @@ resource "aws_subnet" "primary_subnet" {
 }
 
 resource "aws_subnet" "secondary_subnet" {
-  vpc_id                  = aws_vpc.secondary.id
-  cidr_block              = var.secondary_vpc_cidr
+  vpc_id                  = aws_vpc.secondary_vpc.id
+  cidr_block              = var.secondary_subnet_cidr
   availability_zone       = data.aws_availability_zones.secondary.names[0]
   map_public_ip_on_launch = true
   provider                = aws.secondary
@@ -25,11 +25,11 @@ resource "aws_subnet" "secondary_subnet" {
 }
 
 resource "aws_subnet" "tertiary_subnet" {
-  vpc_id                  = aws_vpc.tertiary.id
-  cidr_block              = var.tertiary_vpc_cidr
-  availability_zone       = data.aws_availability_zones.secondary.names[0]
+  vpc_id                  = aws_vpc.tertiary_vpc.id
+  cidr_block              = var.tertiary_subnet_cidr
+  availability_zone       = data.aws_availability_zones.tertiary.names[0]
   map_public_ip_on_launch = true
-  provider                = aws.secondary
+  provider                = aws.tertiary
 
   tags = {
     Name        = "TERTIARY-SUBNET-${var.tertiary}"
